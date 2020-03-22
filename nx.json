@@ -1,0 +1,22 @@
+{
+  "npmScope": "ngneat",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "playground": {
+      "tags": []
+    },
+    "playground-e2e": {
+      "tags": [],
+      "implicitDependencies": ["playground"]
+    }
+  }
+}
