@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "nx": "nx",
-    "start": "ng serve",
+    "start": "ng serve --o --port=3000",
     "build": "ng build",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
@@ -32,8 +32,7 @@
     "release:first": "npm run release -- --first-release",
     "build:lib": "ng build @ngneat/dirty-check-forms",
     "test:lib": "ng test @ngneat/dirty-check-forms",
-    "release": "cd projects/ngneat/dirty-check-forms && standard-version --infile ../../../CHANGELOG.md",
-    "test:lib:headless": "cross-env CI=true npm run test:lib"
+    "release": "cd projects/ngneat/dirty-check-forms && standard-version --infile ../../../CHANGELOG.md"
   },
   "private": true,
   "dependencies": {
@@ -48,6 +47,8 @@
     "@ngneat/lib": "1.0.0",
     "@nrwl/angular": "9.1.2",
     "core-js": "^2.5.4",
+    "ng-zorro-antd": "8.5.2",
+    "ngx-take-until-destroy": "5.4.0",
     "rxjs": "~6.5.0",
     "tslib": "^1.10.0",
     "zone.js": "^0.10.2"
@@ -89,8 +90,7 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -e $GIT_PARAMS",
-      "pre-commit": "npm run hooks:pre-commit && lint-staged",
-      "pre-push": "npm run test:headless"
+      "pre-commit": "npm run hooks:pre-commit && lint-staged"
     }
   },
   "config": {
