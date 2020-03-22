@@ -1,6 +1,11 @@
 <form [formGroup]="settings" nz-form class="container">
   <nz-form-item>
-    <input nz-input formControlName="settingOne" />
+    <input
+      nz-input
+      placeholder="Name"
+      formControlName="settingOne"
+      data-cy="input"
+    />
   </nz-form-item>
 
   <nz-form-item>
@@ -9,6 +14,7 @@
       nzAllowClear
       nzPlaceHolder="Select something"
       formControlName="settingTwo"
+      data-cy="select"
     >
       <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
       <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
@@ -17,12 +23,15 @@
   </nz-form-item>
 
   <nz-form-item>
-    <label nz-checkbox formControlName="settingThree">Checkbox</label>
+    <label nz-checkbox formControlName="settingThree" data-cy="checkbox"
+      >Checkbox</label
+    >
   </nz-form-item>
 
   <button
     nz-button
     nzType="primary"
+    data-cy="saveBtn"
     (click)="submit()"
     *ngIf="isDirty$ | async"
   >

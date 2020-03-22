@@ -1,13 +1,34 @@
-import { getGreeting } from '../support/app.po';
+import {
+  getConfirmationLeave,
+  getConfirmationStay,
+  getConfirmModal,
+  getInput,
+  navigateHome
+} from '../support/app.po';
 
 describe('playground', () => {
-  beforeEach(() => cy.visit('/'));
+  beforeEach(() => cy.visit('/settings'));
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
+  it('should confirm navigation', () => {
+    getInput().type('New input');
+    cy.wait(300);
+    navigateHome();
+    getConfirmModal().should('be.visible');
+  });
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to playground!');
+  it('should stay on confirmation stay', () => {
+    getInput().type('New');
+    cy.wait(300);
+    navigateHome();
+    getConfirmationStay().click();
+    cy.url().should('contain', 'settings');
+  });
+
+  it('should leave on confirmation leave', () => {
+    getInput().type('New');
+    cy.wait(300);
+    navigateHome();
+    getConfirmationLeave().click();
+    cy.url().should('not.contain', 'settings');
   });
 });
