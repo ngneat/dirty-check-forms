@@ -25,11 +25,18 @@
     "workspace-schematic": "nx workspace-schematic",
     "dep-graph": "nx dep-graph",
     "help": "nx help",
-    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points"
+    "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
+    "contributors:add": "all-contributors add",
+    "hooks:pre-commit": "node hooks/pre-commit.js",
+    "commit": "git-cz",
+    "release:first": "npm run release -- --first-release",
+    "build:lib": "ng build @ngneat/dirty-check-forms",
+    "test:lib": "ng test @ngneat/dirty-check-forms",
+    "release": "cd projects/ngneat/dirty-check-forms && standard-version --infile ../../../CHANGELOG.md",
+    "test:lib:headless": "cross-env CI=true npm run test:lib"
   },
   "private": true,
   "dependencies": {
-    "@nrwl/angular": "9.1.2",
     "@angular/animations": "9.0.0",
     "@angular/common": "9.0.0",
     "@angular/compiler": "9.0.0",
@@ -38,15 +45,20 @@
     "@angular/platform-browser": "9.0.0",
     "@angular/platform-browser-dynamic": "9.0.0",
     "@angular/router": "9.0.0",
+    "@ngneat/lib": "1.0.0",
+    "@nrwl/angular": "9.1.2",
     "core-js": "^2.5.4",
     "rxjs": "~6.5.0",
+    "tslib": "^1.10.0",
     "zone.js": "^0.10.2"
   },
   "devDependencies": {
+    "@angular-devkit/build-ng-packagr": "~0.900.7",
     "@angular/cli": "9.0.1",
     "@nrwl/workspace": "9.1.2",
     "@types/node": "~8.9.4",
     "dotenv": "6.2.0",
+    "ng-packagr": "^9.0.0",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
     "eslint": "6.8.0",
@@ -62,6 +74,34 @@
     "@types/jest": "24.9.1",
     "ts-jest": "24.0.0",
     "cypress": "^4.1.0",
-    "@nrwl/cypress": "9.1.2"
+    "@nrwl/cypress": "9.1.2",
+    "@commitlint/cli": "8.1.0",
+    "@commitlint/config-angular": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "git-cz": "^3.2.1",
+    "all-contributors-cli": "^6.8.1",
+    "lint-staged": "^9.2.0",
+    "standard-version": "^6.0.1",
+    "husky": "^3.0.1",
+    "cross-env": "^5.2.0",
+    "@ngneat/spectator": "^4.11.1"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $GIT_PARAMS",
+      "pre-commit": "npm run hooks:pre-commit && lint-staged",
+      "pre-push": "npm run test:headless"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,scss,ts,html,component.html}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }

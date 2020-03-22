@@ -123,6 +123,88 @@
           }
         }
       }
+    },
+    "@ngneat/dirty-check-forms": {
+      "projectType": "library",
+      "root": "ngneat/dirty-check-forms",
+      "sourceRoot": "ngneat/dirty-check-forms/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "ngneat/dirty-check-forms/tsconfig.lib.json",
+            "project": "ngneat/dirty-check-forms/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "ngneat/dirty-check-forms/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "ngneat/dirty-check-forms/src/test.ts",
+            "tsConfig": "ngneat/dirty-check-forms/tsconfig.spec.json",
+            "karmaConfig": "ngneat/dirty-check-forms/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "ngneat/dirty-check-forms/tsconfig.lib.json",
+              "ngneat/dirty-check-forms/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        }
+      }
+    },
+    "dirty-check-forms": {
+      "projectType": "library",
+      "root": "libs/dirty-check-forms",
+      "sourceRoot": "libs/dirty-check-forms/src",
+      "prefix": "ngneat",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/dirty-check-forms/tsconfig.lib.json",
+            "project": "libs/dirty-check-forms/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/dirty-check-forms/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/dirty-check-forms/tsconfig.lib.json",
+              "libs/dirty-check-forms/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/dirty-check-forms/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/dirty-check-forms/jest.config.js",
+            "tsConfig": "libs/dirty-check-forms/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/dirty-check-forms/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {

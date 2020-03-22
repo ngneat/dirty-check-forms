@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@ngneat/dirty-check-forms": ["libs/dirty-check-forms/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
