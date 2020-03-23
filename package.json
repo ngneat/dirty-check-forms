@@ -30,9 +30,10 @@
     "hooks:pre-commit": "node hooks/pre-commit.js",
     "commit": "git-cz",
     "release:first": "npm run release -- --first-release",
-    "build:lib": "ng build @ngneat/dirty-check-forms",
-    "test:lib": "ng test @ngneat/dirty-check-forms",
-    "release": "cd projects/ngneat/dirty-check-forms && standard-version --infile ../../../CHANGELOG.md"
+    "build:lib": "ng build --project=dirty-check-forms",
+    "test:lib": "nx test --project=dirty-check-forms",
+    "dirty-check:release": "npm run dirty-check:version && npm run build:lib",
+    "dirty-check:version": "standard-version --bumpFiles=libs/dirty-check-forms/package.json"
   },
   "private": true,
   "dependencies": {
