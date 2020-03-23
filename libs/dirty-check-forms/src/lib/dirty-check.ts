@@ -31,7 +31,10 @@ export function dirtyCheck<U>(
 
   let subscription: Subscription;
 
-  const isDirty$ = combineLatest([source, valueChanges$]).pipe(
+  const isDirty$: Observable<boolean> = combineLatest([
+    source,
+    valueChanges$
+  ]).pipe(
     map(([a, b]) => !isEqual(a, b)),
     finalize(() => subscription.unsubscribe()),
     startWith(false),
@@ -40,7 +43,12 @@ export function dirtyCheck<U>(
 
   subscription = fromEvent(window, 'beforeunload')
     .pipe(withLatestFrom(isDirty$))
-    .subscribe(([event, isDirty]) => isDirty && (event.returnValue = false));
+    .subscribe(([event, isDirty]) => {
+      if (isDirty) {
+        event.preventDefault();
+        event.returnValue = false;
+      }
+    });
 
   return isDirty$;
 }

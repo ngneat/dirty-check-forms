@@ -31,4 +31,14 @@ describe('playground', () => {
     getConfirmationLeave().click();
     cy.url().should('not.contain', 'settings');
   });
+
+  it('should prompt browser confirmation', () => {
+    getInput().type('New');
+    cy.wait(500);
+    Cypress.on('window:before:unload', (e: BeforeUnloadEvent) => {
+      console.log(`ret=${e.returnValue}`);
+      expect(e.returnValue).equal(false);
+    });
+    cy.reload();
+  });
 });
