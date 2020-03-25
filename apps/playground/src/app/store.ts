@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
 
 export const store = new BehaviorSubject({
-  settingOne: 'demo',
+  settingOne: 'Initial Value',
   settingTwo: 'jack',
   settingThree: true
 });

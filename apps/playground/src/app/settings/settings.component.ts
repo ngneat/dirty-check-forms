@@ -1,8 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { dirtyCheck, DirtyComponent } from '@ngneat/dirty-check-forms';
-import { untilDestroyed } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { store, store$ } from '../store';
 
 @Component({
@@ -10,6 +9,8 @@ import { store, store$ } from '../store';
   templateUrl: './settings.component.html'
 })
 export class SettingsComponent implements OnInit, DirtyComponent, OnDestroy {
+  sub: Subscription;
+
   settings = new FormGroup({
     settingOne: new FormControl(null),
     settingTwo: new FormControl(null),
@@ -19,16 +20,16 @@ export class SettingsComponent implements OnInit, DirtyComponent, OnDestroy {
   isDirty$: Observable<boolean>;
 
   ngOnInit() {
-    store$
-      .pipe(untilDestroyed(this))
-      .subscribe(state =>
-        this.settings.patchValue(state, { emitEvent: false })
-      );
+    this.sub = store$.subscribe(state =>
+      this.settings.patchValue(state, { emitEvent: false })
+    );
 
     this.isDirty$ = dirtyCheck(this.settings, store$);
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() {
+    this.sub && this.sub.unsubscribe();
+  }
 
   submit() {
     store.next(this.settings.value);
