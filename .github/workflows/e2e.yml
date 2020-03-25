@@ -14,3 +14,4 @@ jobs:
           start: npm start
           wait-on: 'http://localhost:4200'
           wait-on-timeout: 120
+          working-directory: apps/playground-e2e
