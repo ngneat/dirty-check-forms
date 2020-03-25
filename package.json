@@ -8,7 +8,7 @@
     "start": "ng serve --o --port=3000",
     "build": "ng build",
     "test": "nx test",
-    "e2e": "nx e2e --watch",
+    "e2e": "nx e2e",
     "postinstall": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "contributors:add": "all-contributors add",
     "hooks:pre-commit": "node hooks/pre-commit.js",

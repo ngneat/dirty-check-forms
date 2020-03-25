@@ -18,11 +18,13 @@ const makeDirty = () => fill('Dirty');
 const revertToInitial = () => fill('Initial Value');
 
 describe('playground', () => {
-  before(() => cy.visit('/settings'));
+  before(() => {
+    cy.clock();
+    cy.visit('/settings');
+  });
 
   context('Save Button', () => {
     it('should show toggle Save button', () => {
-      cy.clock();
       makeDirty();
       getSaveBtn().should('be.visible');
       revertToInitial();
