@@ -6,12 +6,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v1
-      # Install NPM dependencies, cache them correctly
-      # and run all Cypress tests
+      - name: Install dependencies
+        uses: cypress-io/github-action@v1
+        with:
+          runTests: false
       - name: Cypress run
         uses: cypress-io/github-action@v1
         with:
           start: npm start
+          install: false  
           wait-on: 'http://localhost:4200'
           wait-on-timeout: 120
           working-directory: apps/playground-e2e
