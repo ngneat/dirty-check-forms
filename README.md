@@ -41,17 +41,47 @@ Accusantium aliquid corporis cupiditate dolores eum exercitationem illo iure lab
 
 ## Usage
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque blanditiis cum delectus eligendi ipsam iste iure, maxime modi molestiae nihil obcaecati odit officiis pariatur quibusdam suscipit temporibus unde.
-
 ```ts
-function helloWorld() {}
+export class UserFormComponent implements OnInit {
+  userForm: FormGroup;
+  isDirty$: Observable<boolean>;
+
+  constructor(orivate store: UsersStore,
+              private fb: FormBuilder) {}  
+
+  ngOnInit() {
+    this.userForm = this.fb.group({
+      firstName: 'Dirty',
+      lastName: 'Check'
+    });
+    
+    this.isDirty$ = dirtyCheck(this.userForm, this.store.selectUser());
+  }
+}
 ```
 
-## FAQ
+```html
+<form [formGroup]="userForm">
+  <input type="text" formControlName="firstName" placeholder="First name"/>
+  <input type="text" formControlName="lastName" placeholder="Last name"/>
+  
+  <button (click)="submit()" [disabled]="isDirty$ | async">Submit</button>
+</form>
+```
 
 ## How to ...
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque blanditiis cum delectus eligendi ips
+Simple - call `dirtyCheck` function which accepts 2 arguments:
+1. AbstractControl (FormControl, FormGroup, FormArray)
+2. A stream with the original value which to compare  
+
+#### Utilities
+
+We also got you covered with:
+
+1. `DirtyComponent` - an interface which you can re-use in your own guard
+2. `DirtyCheckGuard`- an implementation of `CanDeactivate` guard that only requires you to implement `confirmChanges` method  
+
 
 ## Contributors ✨
 
