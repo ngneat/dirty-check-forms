@@ -41,27 +41,51 @@ Accusantium aliquid corporis cupiditate dolores eum exercitationem illo iure lab
 
 ## Usage
 
+Simply call `dirtyCheck` function which accepts 2 arguments:
+
+1. AbstractControl (FormControl, FormGroup, FormArray)
+2. A stream with the original value to compare
+
+The function returns an `Observable<boolean>` and also hooks on the browser's `beforeunload` event to confirm upon refreshing / closing the tab.
+
+
 ```ts
-export class UserFormComponent implements OnInit {
-  userForm: FormGroup;
+@Component({
+  selector: 'app-settings',
+  templateUrl: './settings.component.html'
+})
+export class SettingsComponent implements OnInit, DirtyComponent, OnDestroy {
+  sub: Subscription;
+
+  settings = new FormGroup({
+    firstName: new FormControl(null),
+    lastName: new FormControl(null)
+  });
+
   isDirty$: Observable<boolean>;
 
-  constructor(orivate store: UsersStore,
-              private fb: FormBuilder) {}  
+  constructor(private store: Store) {} 
 
   ngOnInit() {
-    this.userForm = this.fb.group({
-      firstName: 'Dirty',
-      lastName: 'Check'
-    });
-    
-    this.isDirty$ = dirtyCheck(this.userForm, this.store.selectUser());
+    this.sub = this.store.selectSettings().subscribe(state =>
+      this.settings.patchValue(state, { emitEvent: false })
+    );
+
+    this.isDirty$ = dirtyCheck(this.settings, this.store.selectSettings());
+  }
+
+  ngOnDestroy() {
+    this.sub && this.sub.unsubscribe();
+  }
+
+  submit() {
+    this.store.updateSettings(this.settings.value);
   }
 }
 ```
 
 ```html
-<form [formGroup]="userForm">
+<form [formGroup]="settings">
   <input type="text" formControlName="firstName" placeholder="First name"/>
   <input type="text" formControlName="lastName" placeholder="Last name"/>
   
@@ -69,19 +93,26 @@ export class UserFormComponent implements OnInit {
 </form>
 ```
 
-## How to ...
-
-Simple - call `dirtyCheck` function which accepts 2 arguments:
-1. AbstractControl (FormControl, FormGroup, FormArray)
-2. A stream with the original value which to compare  
-
-#### Utilities
+### Utilities
 
 We also got you covered with:
 
 1. `DirtyComponent` - an interface which you can re-use in your own guard
-2. `DirtyCheckGuard`- an implementation of `CanDeactivate` guard that only requires you to implement `confirmChanges` method  
+2. `DirtyCheckGuard`- an implementation of `CanDeactivate` guard that only requires you to implement `confirmChanges` method
 
+```ts
+@Injectable()
+export class DirtyGuard extends DirtyCheckGuard<DirtyComponent> {
+  constructor() {
+      super();
+    }
+  
+    confirmChanges(): Observable<boolean> | boolean {
+      return confirm('Are you sure you want to discard changes?');
+    }
+}
+
+```  
 
 ## Contributors ✨
 
