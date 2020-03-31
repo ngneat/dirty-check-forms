@@ -9,6 +9,20 @@
   "imageSize": 100,
   "commit": true,
   "commitConvention": "angular",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "danzrou",
+      "name": "Dan Roujinsky",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/6433766?v=4",
+      "profile": "https://github.com/danzrou",
+      "contributions": [
+        "code",
+        "doc",
+        "example",
+        "ideas",
+        "projectManagement"
+      ]
+    }
+  ],
   "contributorsPerLine": 7
 }
