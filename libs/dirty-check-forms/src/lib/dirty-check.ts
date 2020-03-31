@@ -19,11 +19,24 @@ import {
   withLatestFrom
 } from 'rxjs/operators';
 
+interface DirtyCheckConfig {
+  debounce?: number;
+}
+
+function mergeConfig(config: DirtyCheckConfig) {
+  return {
+    debounce: 300,
+    ...config
+  };
+}
+
 export function dirtyCheck<U>(
   control: AbstractControl,
   source: Observable<U>,
-  debounce: number = 300
+  config: DirtyCheckConfig = {}
 ) {
+  const { debounce } = mergeConfig(config);
+
   const valueChanges$ = merge(
     defer(() => of(control.value)),
     control.valueChanges.pipe(debounceTime(debounce), distinctUntilChanged())
