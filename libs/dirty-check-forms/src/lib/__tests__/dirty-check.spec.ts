@@ -14,14 +14,16 @@ describe('dirtyCheck', () => {
     id: 1
   });
 
-  dirtyCheck(form, store$, 0).subscribe(v => (result = v));
+  dirtyCheck(form, store$, { debounce: 0 }).subscribe(v => (result = v));
 
   it('no change - should not be dirty', () => {
     expect(result).toBeFalsy();
   });
 
   it('update store - should be dirty after change', () => {
-    store$.next({ ...store$.getValue(), name: 'dirty-check' });
+    jest.useFakeTimers();
+    form.patchValue({ name: 'new name' });
+    jest.runAllTimers();
     expect(result).toBeTruthy();
   });
 });
