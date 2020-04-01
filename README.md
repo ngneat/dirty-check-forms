@@ -14,105 +14,116 @@
 
 > The cleanest way to do the dirty job
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid assumenda atque blanditiis cum delectus eligendi ipsam iste iure, maxime modi molestiae nihil obcaecati odit officiis pariatur quibusdam suscipit temporibus unde.
-Accusantium aliquid corporis cupiditate dolores eum exercitationem illo iure laborum minus nihil numquam odit officiis possimus quas quasi quos similique, temporibus veritatis? Exercitationem, iure magni nulla quo sapiente soluta. Esse?
+<img src="https://miro.medium.com/max/1400/1*OEA-Gdmy4GFmkNPCtwHXKg.gif">
 
 ## Features
 
-- ✅ One
-- ✅ Two
-- ✅ Three
+- ✅ Dirty Check Forms!
+- ✅ Support In-App Navigation
+- ✅ Support Form Departure
 
 ## Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [FAQ](#faq)
+- [In-App Navigation](#In-App-Navigation)
 
 ## Installation
 
-### NPM
-
-`npm install @ngneat/dirty-check-forms --save-dev`
-
-### Yarn
-
-`yarn add @ngneat/dirty-check-forms --dev`
+`npm install @ngneat/dirty-check-forms`
 
 ## Usage
 
-Simply call `dirtyCheck` function which accepts 2 arguments:
+Call the `dirtyCheck` function, which accepts two arguments:
 
 1. AbstractControl (FormControl, FormGroup, FormArray)
 2. A stream with the original value to compare
 
-The function returns an `Observable<boolean>` and also hooks on the browser's `beforeunload` event to confirm upon refreshing / closing the tab.
+The function returns an `Observable<boolean>`, which notifies whether the form is dirty. Furthermore, it also hooks on the browser's `beforeunload` event to confirm upon refreshing/closing the tab when needed.
 
+For example:
 
 ```ts
-@Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html'
-})
-export class SettingsComponent implements OnInit, DirtyComponent, OnDestroy {
-  sub: Subscription;
+import { dirtyCheck } from '@ngneat/dirty-check-forms';
+
+@Component({ ... })
+export class SettingsComponent {
+  storeSub: Subscription;
 
   settings = new FormGroup({
-    firstName: new FormControl(null),
-    lastName: new FormControl(null)
+    firstName: new FormControl(''),
+    lastName: new FormControl('')
   });
 
   isDirty$: Observable<boolean>;
 
-  constructor(private store: Store) {} 
+  constructor(private store: Store) {}
 
   ngOnInit() {
-    this.sub = this.store.selectSettings().subscribe(state =>
-      this.settings.patchValue(state, { emitEvent: false })
-    );
+    // Update the form with the current store value
+    this.storeSub = this.store.selectSettings()
+      .subscribe(state => this.settings.patchValue(state, { emitEvent: false }));
 
+    // Initialize dirtyCheck
     this.isDirty$ = dirtyCheck(this.settings, this.store.selectSettings());
   }
 
   ngOnDestroy() {
-    this.sub && this.sub.unsubscribe();
-  }
-
-  submit() {
-    this.store.updateSettings(this.settings.value);
+    this.storeSub && this.storeSub.unsubscribe();
   }
 }
 ```
 
 ```html
 <form [formGroup]="settings">
-  <input type="text" formControlName="firstName" placeholder="First name"/>
-  <input type="text" formControlName="lastName" placeholder="Last name"/>
-  
+  <input type="text" formControlName="firstName" placeholder="First name" />
+  <input type="text" formControlName="lastName" placeholder="Last name" />
+
   <button (click)="submit()" [disabled]="isDirty$ | async">Submit</button>
 </form>
 ```
 
-### Utilities
+### In-App Navigation:
 
-We also got you covered with:
-
-1. `DirtyComponent` - an interface which you can re-use in your own guard
-2. `DirtyCheckGuard`- an implementation of `CanDeactivate` guard that only requires you to implement `confirmChanges` method
+Create a guard that extends `DirtyCheckGuard`, and provide the `confirmChanges` method:
 
 ```ts
+import { DirtyCheckGuard, DirtyComponent } from '@ngneat/dirty-check-forms';
+
 @Injectable()
 export class DirtyGuard extends DirtyCheckGuard<DirtyComponent> {
   constructor() {
-      super();
-    }
-  
-    confirmChanges(): Observable<boolean> | boolean {
-      return confirm('Are you sure you want to discard changes?');
-    }
-}
+    super();
+  }
 
-```  
+  confirmChanges(): Observable<boolean> | boolean {
+    return confirm('Are you sure you want to discard changes?');
+  }
+}
+```
+
+Note that when using a guard, your component **must** implement the `DirtyComponent` interface:
+
+```ts
+import { dirtyCheck, DirtyComponent } from '@ngneat/dirty-check-forms';
+
+@Component({ ... })
+export class SettingsComponent implements DirtyComponent { ... }
+```
+
+The last step is to activate the `DirtyCheckGuard`:
+
+```ts
+const routes: Routes = [
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canDeactivate: [DirtyCheckGuard]
+  }
+];
+```
+
+You can find a complete example [here](https://github.com/ngneat/dirty-check-forms/tree/master/apps/playground).
 
 ## Contributors ✨
 
@@ -130,6 +141,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
