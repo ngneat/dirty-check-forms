@@ -5,7 +5,7 @@ import {
   getInput,
   navigateHome,
   getSaveBtn,
-  navigateSettings
+  navigateSettings,
 } from '../support/app.po';
 
 function fill(text: string) {
@@ -47,7 +47,7 @@ describe('playground', () => {
 
     it('should leave on confirmation leave', () => {
       navigateHome();
-      getConfirmationLeave().click();
+      getConfirmationLeave().click({ force: true });
       cy.url().should('not.contain', 'settings');
     });
 
@@ -57,7 +57,7 @@ describe('playground', () => {
       makeDirty();
       navigateHome();
       getConfirmModal().should('be.visible');
-      getConfirmationStay().click();
+      getConfirmationStay().click({ force: true });
       revertToInitial();
       navigateHome();
       cy.url().should('not.contain', 'settings');
