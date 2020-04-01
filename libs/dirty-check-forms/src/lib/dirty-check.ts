@@ -1,5 +1,5 @@
 import { AbstractControl } from '@angular/forms';
-import * as isEqual from 'fast-deep-equal';
+import { equal as isEqual } from './is-equal';
 import {
   combineLatest,
   defer,
@@ -7,7 +7,7 @@ import {
   merge,
   Observable,
   of,
-  Subscription
+  Subscription,
 } from 'rxjs';
 import {
   debounceTime,
@@ -16,7 +16,7 @@ import {
   map,
   shareReplay,
   startWith,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 
 interface DirtyCheckConfig {
@@ -26,7 +26,7 @@ interface DirtyCheckConfig {
 function mergeConfig(config: DirtyCheckConfig) {
   return {
     debounce: 300,
-    ...config
+    ...config,
   };
 }
 
@@ -46,7 +46,7 @@ export function dirtyCheck<U>(
 
   const isDirty$: Observable<boolean> = combineLatest([
     source,
-    valueChanges$
+    valueChanges$,
   ]).pipe(
     map(([a, b]) => !isEqual(a, b)),
     finalize(() => subscription.unsubscribe()),

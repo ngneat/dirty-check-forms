@@ -14,6 +14,8 @@
 
 > The cleanest way to do the dirty job
 
+Detect Unsaved Changes in Angular Forms
+
 <img src="https://miro.medium.com/max/1400/1*OEA-Gdmy4GFmkNPCtwHXKg.gif">
 
 ## Features

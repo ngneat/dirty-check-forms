@@ -14,6 +14,7 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
       "@ngneat/dirty-check-forms": ["libs/dirty-check-forms/src/index.ts"]
