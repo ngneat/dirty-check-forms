@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+.container {
+  width: 500px;
+  margin: auto;
+}
+
+nz-radio-group {
+  width: 100%;
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 20px !important;
+}

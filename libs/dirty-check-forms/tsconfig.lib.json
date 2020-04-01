@@ -6,6 +6,7 @@
     "declaration": true,
     "inlineSources": true,
     "types": [],
+    "allowSyntheticDefaultImports": true,
     "lib": ["dom", "es2018"]
   },
   "angularCompilerOptions": {
