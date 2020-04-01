@@ -18,7 +18,7 @@
     "test:lib": "nx test dirty-check-forms",
     "copy": "cp README.md dist/libs/dirty-check-forms",
     "dirty-check:release": "npm run dirty-check:version && npm run build:lib && npm run copy",
-    "dirty-check:version": "standard-version --bumpFiles=libs/dirty-check-forms/package.json"
+    "dirty-check:version": "standard-version --packageFiles=libs/dirty-check-forms/package.json"
   },
   "dependencies": {
     "@angular/animations": "9.1.0",
