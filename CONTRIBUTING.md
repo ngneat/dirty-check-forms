@@ -1,4 +1,4 @@
-# Contributing to Dirty-check-forms
+# Contributing dirty-check-forms
 
 🙏 We would ❤️ for you to contribute to Dirty-check-forms and help make it even better than it is today!
 

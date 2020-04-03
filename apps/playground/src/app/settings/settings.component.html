@@ -1,0 +1,40 @@
+<form [formGroup]="settings" nz-form class="container">
+  <nz-form-item>
+    <input
+      nz-input
+      placeholder="Name"
+      formControlName="settingOne"
+      data-cy="input"
+    />
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-select
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Select something"
+      formControlName="settingTwo"
+      data-cy="select"
+    >
+      <nz-option nzLabel="Jack" nzValue="jack"></nz-option>
+      <nz-option nzLabel="Lucy" nzValue="lucy"></nz-option>
+      <nz-option nzLabel="Tom" nzValue="tom"></nz-option>
+    </nz-select>
+  </nz-form-item>
+
+  <nz-form-item>
+    <label nz-checkbox formControlName="settingThree" data-cy="checkbox"
+      >Checkbox</label
+    >
+  </nz-form-item>
+
+  <button
+    nz-button
+    nzType="primary"
+    data-cy="saveBtn"
+    (click)="submit()"
+    *ngIf="isDirty$ | async"
+  >
+    Save
+  </button>
+</form>

@@ -1,9 +1,23 @@
 {
   "name": "@ngneat/dirty-check-forms",
-  "version": "0.0.1",
-  "peerDependencies": {
-    "@angular/common": "^9.0.7",
-    "@angular/core": "^9.0.7",
-    "tslib": "^1.10.0"
-  }
+  "description": "Detect Unsaved Changes in Angular Forms",
+  "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/ngneat/dirty-check-forms/issues"
+  },
+  "homepage": "https://github.com/ngneat/dirty-check-forms#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ngneat/dirty-check-forms"
+  },
+  "keywords": [
+    "angular",
+    "angular 2",
+    "forms",
+    "dirty check"
+  ],
+  "license": "MIT"
 }

@@ -1,13 +1,66 @@
-import { getGreeting } from '../support/app.po';
+import {
+  getConfirmationLeave,
+  getConfirmationStay,
+  getConfirmModal,
+  getInput,
+  navigateHome,
+  getSaveBtn,
+  navigateSettings,
+} from '../support/app.po';
+
+function fill(text: string) {
+  getInput().clear({ force: true });
+  getInput().type(text);
+  cy.tick(300);
+}
+
+const makeDirty = () => fill('Dirty');
+const revertToInitial = () => fill('Initial Value');
 
 describe('playground', () => {
-  beforeEach(() => cy.visit('/'));
+  before(() => {
+    cy.clock();
+    cy.visit('/settings');
+  });
 
-  it('should display welcome message', () => {
-    // Custom command example, see `../support/commands.ts` file
-    cy.login('my-email@something.com', 'myPassword');
+  context('Save Button', () => {
+    it('should show toggle Save button', () => {
+      makeDirty();
+      getSaveBtn().should('be.visible');
+      revertToInitial();
+      getSaveBtn().should('not.be.visible');
+    });
+  });
 
-    // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to playground!');
+  context('Confirmation Dialog', () => {
+    it('should show confirm navigation', () => {
+      cy.clock();
+      makeDirty();
+      navigateHome();
+      getConfirmModal().should('be.visible');
+    });
+
+    it('should stay on confirmation stay', () => {
+      getConfirmationStay().click();
+      cy.url().should('contain', 'settings');
+    });
+
+    it('should leave on confirmation leave', () => {
+      navigateHome();
+      getConfirmationLeave().click({ force: true });
+      cy.url().should('not.contain', 'settings');
+    });
+
+    it('should not show the modal when it is not dirty again', () => {
+      cy.clock();
+      navigateSettings();
+      makeDirty();
+      navigateHome();
+      getConfirmModal().should('be.visible');
+      getConfirmationStay().click({ force: true });
+      revertToInitial();
+      navigateHome();
+      cy.url().should('not.contain', 'settings');
+    });
   });
 });
