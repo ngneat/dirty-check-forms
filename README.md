@@ -37,10 +37,13 @@ Detect Unsaved Changes in Angular Forms
 
 ## Usage
 
-Call the `dirtyCheck` function, which accepts two arguments:
+Call the `dirtyCheck` function, which accepts three arguments:
 
 1. AbstractControl (`FormControl`, `FormGroup`, `FormArray`)
 2. A stream with the original value to compare
+3. Config:  
+  - `debounce` - debounce time of `valueChanges`. Defaults to 300  
+  - `withDisabled` - whether to include disable fields (by using control's `getRawValue`) or not. Defaults to `true`. 
 
 The function returns an `Observable<boolean>`, which notifies whether the form is dirty. Furthermore, it also hooks on the browser's `beforeunload` event to confirm upon refreshing/closing the tab when needed.
 
