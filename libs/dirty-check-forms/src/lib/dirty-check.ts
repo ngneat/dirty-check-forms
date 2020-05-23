@@ -1,5 +1,4 @@
-import { AbstractControl } from '@angular/forms';
-import { equal as isEqual } from './is-equal';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import {
   combineLatest,
   defer,
@@ -18,16 +17,29 @@ import {
   startWith,
   withLatestFrom,
 } from 'rxjs/operators';
+import { equal as isEqual } from './is-equal';
 
 interface DirtyCheckConfig {
   debounce?: number;
+  withDisabled?: boolean;
 }
 
-function mergeConfig(config: DirtyCheckConfig) {
+function mergeConfig(config: DirtyCheckConfig): DirtyCheckConfig {
   return {
     debounce: 300,
+    withDisabled: true,
     ...config,
   };
+}
+
+function getControlValue(control: AbstractControl, withDisabled: boolean) {
+  if (
+    withDisabled &&
+    (control instanceof FormGroup || control instanceof FormArray)
+  ) {
+    return control.getRawValue();
+  }
+  return control.value;
 }
 
 export function dirtyCheck<U>(
@@ -35,11 +47,15 @@ export function dirtyCheck<U>(
   source: Observable<U>,
   config: DirtyCheckConfig = {}
 ) {
-  const { debounce } = mergeConfig(config);
-
+  const { debounce, withDisabled } = mergeConfig(config);
+  const value = () => getControlValue(control, withDisabled);
   const valueChanges$ = merge(
-    defer(() => of(control.value)),
-    control.valueChanges.pipe(debounceTime(debounce), distinctUntilChanged())
+    defer(() => of(value())),
+    control.valueChanges.pipe(
+      debounceTime(debounce),
+      distinctUntilChanged(),
+      map(() => value())
+    )
   );
 
   let subscription: Subscription;
