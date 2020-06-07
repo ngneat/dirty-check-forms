@@ -14,7 +14,7 @@ export abstract class DirtyCheckGuard implements CanDeactivate<DirtyComponent> {
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot
   ): Observable<boolean> {
-    let dirty$;
+    let dirty$: Observable<boolean>;
     const componentDirty = component.isDirty$;
 
     if (isFunction(componentDirty)) {
