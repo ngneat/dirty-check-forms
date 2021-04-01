@@ -23,7 +23,7 @@ describe('DirtyCheckGuard', () => {
     const spy2 = spyOn(guard, 'confirmChanges').and.callThrough();
     guard.confirm = true;
     comp.isDirty$ = () => true;
-    guard.canDeactivate(comp, null, null).subscribe(spy);
+    guard.canDeactivate(comp, null).subscribe(spy);
     expect(spy2).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(true);
   });
@@ -33,7 +33,7 @@ describe('DirtyCheckGuard', () => {
     const spy2 = spyOn(guard, 'confirmChanges').and.callThrough();
     guard.confirm = of(true);
     comp.isDirty$ = () => true;
-    guard.canDeactivate(comp, null, null).subscribe(spy);
+    guard.canDeactivate(comp, null).subscribe(spy);
     expect(spy2).toHaveBeenCalled();
     expect(spy).toHaveBeenCalledWith(true);
   });

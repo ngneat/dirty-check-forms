@@ -1,17 +1,8 @@
 import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
-import {
-  combineLatest,
-  defer,
-  fromEvent,
-  merge,
-  Observable,
-  of,
-  Subscription,
-} from 'rxjs';
+import { combineLatest, defer, fromEvent, merge, Observable, of } from 'rxjs';
 import {
   debounceTime,
   distinctUntilChanged,
-  finalize,
   map,
   shareReplay,
   startWith,
@@ -46,7 +37,7 @@ export function dirtyCheck<U>(
   control: AbstractControl,
   source: Observable<U>,
   config: DirtyCheckConfig = {}
-) {
+): Observable<boolean> {
   const { debounce, withDisabled } = mergeConfig(config);
   const value = () => getControlValue(control, withDisabled);
   const valueChanges$ = merge(
@@ -58,26 +49,27 @@ export function dirtyCheck<U>(
     )
   );
 
-  let subscription: Subscription;
+  return new Observable((observer) => {
+    const isDirty$: Observable<boolean> = combineLatest([
+      source,
+      valueChanges$,
+    ]).pipe(
+      map(([a, b]) => !isEqual(a, b)),
+      startWith(false),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
 
-  const isDirty$: Observable<boolean> = combineLatest([
-    source,
-    valueChanges$,
-  ]).pipe(
-    map(([a, b]) => !isEqual(a, b)),
-    finalize(() => subscription.unsubscribe()),
-    startWith(false),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+    observer.add(
+      fromEvent(window, 'beforeunload')
+        .pipe(withLatestFrom(isDirty$))
+        .subscribe(([event, isDirty]) => {
+          if (isDirty) {
+            event.preventDefault();
+            event.returnValue = false;
+          }
+        })
+    );
 
-  subscription = fromEvent(window, 'beforeunload')
-    .pipe(withLatestFrom(isDirty$))
-    .subscribe(([event, isDirty]) => {
-      if (isDirty) {
-        event.preventDefault();
-        event.returnValue = false;
-      }
-    });
-
-  return isDirty$;
+    return isDirty$.subscribe(observer);
+  });
 }

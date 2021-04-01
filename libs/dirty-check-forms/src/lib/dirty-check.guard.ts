@@ -11,8 +11,7 @@ import { isFunction, toObservable } from './utils/coercion';
 export abstract class DirtyCheckGuard implements CanDeactivate<DirtyComponent> {
   canDeactivate(
     component: DirtyComponent,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot
+    currentRoute: ActivatedRouteSnapshot
   ): Observable<boolean> {
     let dirty$: Observable<boolean>;
     const componentDirty = component.isDirty$;
