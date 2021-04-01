@@ -27,11 +27,13 @@ export abstract class DirtyCheckGuard implements CanDeactivate<DirtyComponent> {
         if (isDirty === false) {
           return of(true);
         }
-        return toObservable(this.confirmChanges());
+        return toObservable(this.confirmChanges(currentRoute));
       }),
       take(1)
     );
   }
 
-  abstract confirmChanges(): Observable<boolean> | boolean;
+  abstract confirmChanges(
+    currentRoute: ActivatedRouteSnapshot
+  ): Observable<boolean> | boolean;
 }
