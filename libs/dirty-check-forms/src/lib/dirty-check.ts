@@ -13,6 +13,7 @@ import { equal as isEqual } from './is-equal';
 interface DirtyCheckConfig {
   debounce?: number;
   withDisabled?: boolean;
+  window?: Window;
 }
 
 function mergeConfig(config: DirtyCheckConfig): DirtyCheckConfig {
@@ -38,7 +39,7 @@ export function dirtyCheck<U>(
   source: Observable<U>,
   config: DirtyCheckConfig = {}
 ): Observable<boolean> {
-  const { debounce, withDisabled } = mergeConfig(config);
+  const { debounce, withDisabled, window } = mergeConfig(config);
   const value = () => getControlValue(control, withDisabled);
   const valueChanges$ = merge(
     defer(() => of(value())),
@@ -59,16 +60,18 @@ export function dirtyCheck<U>(
       shareReplay({ bufferSize: 1, refCount: true })
     );
 
-    observer.add(
-      fromEvent(window, 'beforeunload')
-        .pipe(withLatestFrom(isDirty$))
-        .subscribe(([event, isDirty]) => {
-          if (isDirty) {
-            event.preventDefault();
-            event.returnValue = false;
-          }
-        })
-    );
+    if (window) {
+      observer.add(
+        fromEvent(window, 'beforeunload')
+          .pipe(withLatestFrom(isDirty$))
+          .subscribe(([event, isDirty]) => {
+            if (isDirty) {
+              event.preventDefault();
+              event.returnValue = false;
+            }
+          })
+      );
+    }
 
     return isDirty$.subscribe(observer);
   });
