@@ -13,13 +13,14 @@ import { equal as isEqual } from './is-equal';
 interface DirtyCheckConfig {
   debounce?: number;
   withDisabled?: boolean;
-  window?: Window;
+  useBeforeunloadEvent?: boolean;
 }
 
 function mergeConfig(config: DirtyCheckConfig): DirtyCheckConfig {
   return {
     debounce: 300,
     withDisabled: true,
+    useBeforeunloadEvent: true,
     ...config,
   };
 }
@@ -39,7 +40,7 @@ export function dirtyCheck<U>(
   source: Observable<U>,
   config: DirtyCheckConfig = {}
 ): Observable<boolean> {
-  const { debounce, withDisabled, window } = mergeConfig(config);
+  const { debounce, withDisabled, useBeforeunloadEvent } = mergeConfig(config);
   const value = () => getControlValue(control, withDisabled);
   const valueChanges$ = merge(
     defer(() => of(value())),
@@ -60,7 +61,7 @@ export function dirtyCheck<U>(
       shareReplay({ bufferSize: 1, refCount: true })
     );
 
-    if (window) {
+    if (useBeforeunloadEvent) {
       observer.add(
         fromEvent(window, 'beforeunload')
           .pipe(withLatestFrom(isDirty$))
