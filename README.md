@@ -44,7 +44,7 @@ Call the `dirtyCheck` function, which accepts three arguments:
 3. Config:  
   - `debounce` - debounce time of `valueChanges`. Defaults to 300  
   - `withDisabled` - whether to include disable fields (by using control's `getRawValue`) or not. Defaults to `true`. 
-  - `window` - global `Window` object to handle `onbeforeunload` event. Defaults to `undefined`.
+  - `useBeforeunloadEvent` - enable or disable `onbeforeunload` event handling. Defaults to `true`.
 
 The function returns an `Observable<boolean>`, which notifies whether the form is dirty. Furthermore, it also hooks on the browser's `beforeunload` event to confirm upon refreshing/closing the tab when needed.
 
