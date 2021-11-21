@@ -98,7 +98,7 @@ Create a guard that extends `DirtyCheckGuard`, and provide the `confirmChanges` 
 import { DirtyCheckGuard, DirtyComponent } from '@ngneat/dirty-check-forms';
 
 @Injectable()
-export class DirtyGuard extends DirtyCheckGuard<DirtyComponent> {
+export class DirtyGuard extends DirtyCheckGuard {
   constructor() {
     super();
   }
