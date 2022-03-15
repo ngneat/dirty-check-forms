@@ -54,6 +54,14 @@ if (!process.env['NX_CLI_SET']) {
   const { output } = require('@nrwl/workspace');
   output.warn({ title: 'The Angular CLI was invoked instead of the Nx CLI. Use "npx ng [command]" or "nx [command]" instead.' });
 }
+
+if (process.argv[2] === 'update') {
+  const { output } = require('@nrwl/workspace');
+  output.error({
+    title: '"ng update" is deprecated in favor of "nx migrate". Read more: https://nx.dev/latest/angular/workspace/update'
+  });
+  throw new Error();
+}
 ${angularCLIInit}
     `
     );
@@ -74,7 +82,8 @@ function symlinkNgCLItoNxCLI() {
        * Such that it works in all shells and works with npx.
        */
       ['', '.cmd', '.ps1'].forEach((ext) => {
-        fs.writeFileSync(ngPath + ext, fs.readFileSync(nxPath + ext));
+        if (fs.existsSync(nxPath + ext))
+          fs.writeFileSync(ngPath + ext, fs.readFileSync(nxPath + ext));
       });
     } else {
       // If unix-based, symlink

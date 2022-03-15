@@ -98,9 +98,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/playground/jest.config.js",
-            "tsConfig": "apps/playground/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "apps/playground/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       }
@@ -142,7 +140,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/dirty-check-forms/tsconfig.lib.json",
-            "project": "libs/dirty-check-forms/ng-package.json"
+            "project": "libs/dirty-check-forms/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {
@@ -164,9 +163,7 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/dirty-check-forms/jest.config.js",
-            "tsConfig": "libs/dirty-check-forms/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/dirty-check-forms/src/test-setup.ts"
+            "passWithNoTests": true
           }
         }
       },
@@ -176,18 +173,5 @@
         }
       }
     }
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/angular"
-  },
-  "schematics": {
-    "@nrwl/angular:application": {
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/angular:library": {
-      "unitTestRunner": "jest"
-    }
-  },
-  "defaultProject": "playground"
+  }
 }
