@@ -91,7 +91,7 @@
               "apps/playground/tsconfig.app.json",
               "apps/playground/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/playground/**"]
+            "exclude": ["**/node_modules/**", "!apps/playground/**/*"]
           }
         },
         "test": {
@@ -127,7 +127,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/playground-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/playground-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/playground-e2e/**/*"]
           }
         }
       }
@@ -157,7 +157,7 @@
               "libs/dirty-check-forms/tsconfig.lib.json",
               "libs/dirty-check-forms/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/dirty-check-forms/**"]
+            "exclude": ["**/node_modules/**", "!libs/dirty-check-forms/**/*"]
           }
         },
         "test": {
