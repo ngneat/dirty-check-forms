@@ -20,7 +20,7 @@ const comp = new MockComponent();
 describe('DirtyCheckGuard', () => {
   it('should confirm with boolean', () => {
     const spy = jest.fn();
-    const spy2 = spyOn(guard, 'confirmChanges').and.callThrough();
+    const spy2 = jest.spyOn(guard, 'confirmChanges');
     guard.confirm = true;
     comp.isDirty$ = () => true;
     guard.canDeactivate(comp, null).subscribe(spy);
@@ -30,7 +30,7 @@ describe('DirtyCheckGuard', () => {
 
   it('should confirm with observable', () => {
     const spy = jest.fn();
-    const spy2 = spyOn(guard, 'confirmChanges').and.callThrough();
+    const spy2 = jest.spyOn(guard, 'confirmChanges');
     guard.confirm = of(true);
     comp.isDirty$ = () => true;
     guard.canDeactivate(comp, null).subscribe(spy);

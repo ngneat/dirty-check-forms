@@ -19,5 +19,12 @@
     "forms",
     "dirty check"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/core": ">=13.0.0",
+    "@angular/router": ">=13.0.0",
+    "@angular/forms": ">=13.0.0",
+    "rxjs": ">=6.0.0",
+    "tslib": ">=2.0.0"
+  }
 }
