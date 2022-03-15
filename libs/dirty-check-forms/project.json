@@ -1,0 +1,43 @@
+{
+  "projectType": "library",
+  "root": "libs/dirty-check-forms",
+  "sourceRoot": "libs/dirty-check-forms/src",
+  "prefix": "ngneat",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "options": {
+        "updateBuildableProjectDepsInPackageJson": false,
+        "tsConfig": "libs/dirty-check-forms/tsconfig.lib.json",
+        "project": "libs/dirty-check-forms/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/dirty-check-forms/tsconfig.lib.prod.json"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/dirty-check-forms/src/**/*.ts",
+          "libs/dirty-check-forms/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "options": {
+        "jestConfig": "libs/dirty-check-forms/jest.config.js",
+        "passWithNoTests": true
+      },
+      "outputs": ["coverage/libs/dirty-check-forms"]
+    }
+  },
+  "generators": {
+    "@nrwl/angular:component": {
+      "styleext": "scss"
+    }
+  }
+}

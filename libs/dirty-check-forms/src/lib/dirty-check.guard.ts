@@ -1,8 +1,4 @@
-import {
-  ActivatedRouteSnapshot,
-  CanDeactivate,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanDeactivate } from '@angular/router';
 import { defer, Observable, of } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { DirtyComponent } from './dirty-component';

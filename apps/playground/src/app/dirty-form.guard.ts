@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DirtyCheckGuard } from '@ngneat/dirty-check-forms';
-import { NzModalService } from 'ng-zorro-antd';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { NzModalService } from 'ng-zorro-antd/modal';
 
 @Injectable({ providedIn: 'root' })
 export class FormDirtyGuard extends DirtyCheckGuard {
@@ -23,7 +23,7 @@ export class FormDirtyGuard extends DirtyCheckGuard {
         },
         nzOnCancel() {
           navigate = true;
-        }
+        },
       })
       .afterClose.pipe(map(() => navigate));
   }

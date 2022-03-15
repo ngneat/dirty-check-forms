@@ -5,7 +5,7 @@ export function equal(a, b) {
   if (a && b && typeof a == 'object' && typeof b == 'object') {
     if (a.constructor !== b.constructor) return false;
 
-    var length, i, keys;
+    let length, i;
     if (Array.isArray(a)) {
       length = a.length;
       if (length != b.length) return false;
@@ -20,7 +20,7 @@ export function equal(a, b) {
     if (a.toString !== Object.prototype.toString)
       return a.toString() === b.toString();
 
-    keys = Object.keys(a);
+    const keys = Object.keys(a);
     length = keys.length;
     if (length !== Object.keys(b).length) return false;
 
@@ -28,7 +28,7 @@ export function equal(a, b) {
       if (!Object.prototype.hasOwnProperty.call(b, keys[i])) return false;
 
     for (i = length; i-- !== 0; ) {
-      var key = keys[i];
+      const key = keys[i];
 
       if (!equal(a[key], b[key])) return false;
     }

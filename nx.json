@@ -10,7 +10,6 @@
     "nx.json": "*",
     "tsconfig.base.json": "*"
   },
-  "projects": {},
   "affected": {
     "defaultBase": "master"
   },
