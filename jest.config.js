@@ -1,3 +1,3 @@
-module.exports = {
-  projects: ['<rootDir>/apps/playground', '<rootDir>/libs/dirty-check-forms'],
-};
+const { getJestProjects } = require('@nrwl/jest');
+
+module.exports = { projects: getJestProjects() };

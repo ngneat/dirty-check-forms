@@ -10,18 +10,7 @@
     "nx.json": "*",
     "tsconfig.base.json": "*"
   },
-  "projects": {
-    "playground": {
-      "tags": []
-    },
-    "playground-e2e": {
-      "tags": [],
-      "implicitDependencies": ["playground"]
-    },
-    "dirty-check-forms": {
-      "tags": []
-    }
-  },
+  "projects": {},
   "affected": {
     "defaultBase": "master"
   },
@@ -37,5 +26,13 @@
     "@nrwl/angular:library": {
       "unitTestRunner": "jest"
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
   }
 }
