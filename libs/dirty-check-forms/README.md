@@ -93,7 +93,9 @@ export class SettingsComponent {
 Create a guard that extends `DirtyCheckGuard`, and provide the `confirmChanges` method:
 
 ```ts
-import { DirtyCheckGuard, DirtyComponent } from '@ngneat/dirty-check-forms';
+import { Injectable } from "@angular/core";
+import { DirtyCheckGuard } from "@ngneat/dirty-check-forms";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class DirtyGuard extends DirtyCheckGuard<DirtyComponent> {
