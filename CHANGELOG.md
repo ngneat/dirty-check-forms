@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/ngneat/dirty-check-forms/compare/v1.1.0...v3.0.0) (2022-03-29)
+
+
+### ⚠ BREAKING CHANGES
+
+* TS target is now ES2020
+* Upgrade to Angular v13
+
+### Features
+
+* 🎸 support excludeKeys in config ([97acd82](https://github.com/ngneat/dirty-check-forms/commit/97acd82061c655b6427c62de390b47b54e4414bf))
+* **dirty-check:** add useBeforeunloadEvent option to config ([506fb41](https://github.com/ngneat/dirty-check-forms/commit/506fb416dc1f11426dd5f9f35e00bb0111213fb9))
+* **dirty-check:** pass window object in config ([16c4a1b](https://github.com/ngneat/dirty-check-forms/commit/16c4a1becdc0debf2fc4edebbcbc1fe3aa3fcd4b))
+
+
+* 🤖 upgrade to v13 ([fa1e5f9](https://github.com/ngneat/dirty-check-forms/commit/fa1e5f9c40b16e08b99626904c6188b6efd74229))
+
 ## [2.0.0](https://github.com/ngneat/dirty-check-forms/compare/v1.1.0...v2.0.0) (2022-03-15)
 
 
