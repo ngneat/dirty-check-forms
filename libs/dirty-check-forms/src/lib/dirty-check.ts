@@ -9,21 +9,20 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { equal as isEqual } from './is-equal';
+import { omit } from './utils/omit';
 
-interface DirtyCheckConfig {
+interface DirtyCheckConfig<U = unknown> {
   debounce?: number;
   withDisabled?: boolean;
   useBeforeunloadEvent?: boolean;
+  excludeKeys?: Array<keyof U>;
 }
 
-function mergeConfig(config: DirtyCheckConfig): DirtyCheckConfig {
-  return {
-    debounce: 300,
-    withDisabled: true,
-    useBeforeunloadEvent: true,
-    ...config,
-  };
-}
+const defaults: DirtyCheckConfig = {
+  debounce: 300,
+  withDisabled: true,
+  useBeforeunloadEvent: true,
+};
 
 function getControlValue(control: AbstractControl, withDisabled: boolean) {
   if (
@@ -35,12 +34,20 @@ function getControlValue(control: AbstractControl, withDisabled: boolean) {
   return control.value;
 }
 
-export function dirtyCheck<U>(
+export function dirtyCheck<
+  U,
+  Config extends U extends Record<string, unknown>
+    ? DirtyCheckConfig<U>
+    : Omit<DirtyCheckConfig<U>, 'excludeKeys'>
+>(
   control: AbstractControl,
   source: Observable<U>,
-  config: DirtyCheckConfig = {}
+  config: Config = {} as Config
 ): Observable<boolean> {
-  const { debounce, withDisabled, useBeforeunloadEvent } = mergeConfig(config);
+  const { debounce, withDisabled, useBeforeunloadEvent, excludeKeys } = {
+    ...defaults,
+    ...config,
+  };
   const value = () => getControlValue(control, withDisabled);
   const valueChanges$ = merge(
     defer(() => of(value())),
@@ -56,7 +63,13 @@ export function dirtyCheck<U>(
       source,
       valueChanges$,
     ]).pipe(
-      map(([a, b]) => !isEqual(a, b)),
+      map(([a, b]) => {
+        if (excludeKeys) {
+          return !isEqual(omit(a, excludeKeys), omit(b, excludeKeys));
+        }
+
+        return !isEqual(a, b);
+      }),
       startWith(false),
       shareReplay({ bufferSize: 1, refCount: true })
     );

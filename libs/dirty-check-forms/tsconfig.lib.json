@@ -2,12 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "target": "es2015",
     "declaration": true,
     "inlineSources": true,
     "types": [],
-    "allowSyntheticDefaultImports": true,
-    "lib": ["dom", "es2018"]
+    "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
