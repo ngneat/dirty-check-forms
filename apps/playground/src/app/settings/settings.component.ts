@@ -6,25 +6,28 @@ import { store, store$ } from '../store';
 
 @Component({
   selector: 'pg-settings',
-  templateUrl: './settings.component.html'
+  templateUrl: './settings.component.html',
 })
 export class SettingsComponent implements OnInit, DirtyComponent, OnDestroy {
   sub: Subscription;
 
   settings = new FormGroup({
     settingOne: new FormControl(null),
+    ignore: new FormControl(null),
     settingTwo: new FormControl(null),
-    settingThree: new FormControl(true)
+    settingThree: new FormControl(true),
   });
 
   isDirty$: Observable<boolean>;
 
   ngOnInit() {
-    this.sub = store$.subscribe(state =>
+    this.sub = store$.subscribe((state) =>
       this.settings.patchValue(state, { emitEvent: false })
     );
 
-    this.isDirty$ = dirtyCheck(this.settings, store$);
+    this.isDirty$ = dirtyCheck(this.settings, store$, {
+      excludeKeys: ['ignore'],
+    });
   }
 
   ngOnDestroy() {
