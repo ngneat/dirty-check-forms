@@ -1,6 +1,13 @@
 import { BehaviorSubject } from 'rxjs';
 
-export const store = new BehaviorSubject({
+interface Data {
+  settingOne: string;
+  settingTwo: string;
+  settingThree: boolean;
+  ignore: string;
+}
+
+export const store = new BehaviorSubject<Data>({
   settingOne: 'Initial Value',
   settingTwo: 'jack',
   settingThree: true,

@@ -36,7 +36,7 @@ function getControlValue(control: AbstractControl, withDisabled: boolean) {
 
 export function dirtyCheck<
   U,
-  Config extends U extends Record<string, unknown>
+  Config extends U extends object
     ? DirtyCheckConfig<U>
     : Omit<DirtyCheckConfig<U>, 'excludeKeys'>
 >(
