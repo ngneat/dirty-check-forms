@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/ngneat/dirty-check-forms/compare/v3.0.2...v3.0.3) (2022-11-28)
+
+
+### Bug Fixes
+
+* 🐛 use lodash omit ([be571c8](https://github.com/ngneat/dirty-check-forms/commit/be571c833bb9d7974fd2162304258989759de7c3))
+
 ### [3.0.2](https://github.com/ngneat/dirty-check-forms/compare/v3.0.1...v3.0.2) (2022-03-31)
 
 
