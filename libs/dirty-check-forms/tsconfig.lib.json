@@ -5,7 +5,8 @@
     "declaration": true,
     "inlineSources": true,
     "types": [],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "removeComments": true
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,

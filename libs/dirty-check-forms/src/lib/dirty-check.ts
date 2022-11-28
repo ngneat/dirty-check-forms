@@ -9,7 +9,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { equal as isEqual } from './is-equal';
-import { omit } from './utils/omit';
+import omit from 'lodash-es/omit';
 
 interface DirtyCheckConfig<U = unknown> {
   debounce?: number;
